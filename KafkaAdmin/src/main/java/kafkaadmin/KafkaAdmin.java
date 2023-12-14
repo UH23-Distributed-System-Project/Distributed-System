@@ -11,58 +11,16 @@ import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
-public class KafkaAmin {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        // Controllers: 43.157.66.25:9093,43.157.66.25:9095,43.157.66.25:9097
-        Properties props = new Properties();
-        String bootstrapServers = "43.131.12.169:9092,43.131.14.163:9092,43.131.14.163:9094";
-        props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        try(AdminClient adminClient = AdminClient.create(props)) {
-            while(true) {
-                System.out.print("> ");
-                String command = scanner.nextLine();
+public class KafkaAdmin {
 
-                if(command.startsWith("list consumer-group-offsets")) {
-                    printConsumerGroupOffsets(adminClient, command.split(" ")[2]);
+    private final AdminClient adminClient;
 
-                } else if(command.startsWith("list offsets")) {
-                    String[] a = command.split(" ");
-                    printOffsets(adminClient, a[2], Integer.parseInt(a[3]));
-                } else {
-                    switch(command){
-                        case "list topics":
-                            printTopics(adminClient);
-                            break;
-                        case "list consumer-groups":
-                            printConsumerGroups(adminClient);
-                            break;
-                        case "list brokers":
-                            break;
-                        case "start broker-monitor":
-                            runBrokerMonitor(adminClient);
-                            break;
-                        case "describe topics":
-                            printTopicDescription(adminClient);
-                            break;
-                        case "list transactions":
-                            printTransactions(adminClient);
-                            break;
-                        case "quit":
-                            System.exit(0);
-                        default:
-                            System.out.println("Unknown command: \"" + command + "\"");
-                            break;
-                    }
-                }
-            }
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-
+    public KafkaAdmin(Properties props) {
+        this.adminClient = AdminClient.create(props);
     }
 
-    private static void printConsumerGroups(AdminClient adminClient) throws ExecutionException, InterruptedException {
+    // Print consumer groups
+    public void printConsumerGroups() throws ExecutionException, InterruptedException {
         ListConsumerGroupsResult listConsumerGroupsResult = adminClient.listConsumerGroups();
 
         Collection<ConsumerGroupListing> consumerGroupListings = listConsumerGroupsResult.all().get();
@@ -71,10 +29,11 @@ public class KafkaAmin {
         }
     }
 
-    private static void printTopicDescription(AdminClient adminClient) throws ExecutionException, InterruptedException {
+    // Print topic details
+    public void printTopicDescription() throws ExecutionException, InterruptedException {
         Collection<TopicListing> listings;
 
-        listings = getTopicListing(adminClient, false);
+        listings = getTopicListing(false);
         List<String> topics = listings.stream().map(TopicListing::name).toList();
         DescribeTopicsResult result = adminClient.describeTopics(topics);
         result.topicNameValues().forEach((key, value) -> {
@@ -86,13 +45,15 @@ public class KafkaAmin {
         });
     }
 
-    private static Collection<TopicListing> getTopicListing(AdminClient client, boolean isInternal) throws ExecutionException, InterruptedException {
+    private Collection<TopicListing> getTopicListing(boolean isInternal) throws ExecutionException, InterruptedException {
         ListTopicsOptions options = new ListTopicsOptions();
         options.listInternal(isInternal);
-        return client.listTopics(options).listings().get();
+        return adminClient.listTopics(options).listings().get();
     }
 
-    private static void runBrokerMonitor(AdminClient adminClient) {
+    // Starts the broker monitor, which periodically queries the cluster for active brokers
+    // TODO: make broker-monitor automatically restart crashed broker
+    public void runBrokerMonitor() {
         Timer timer = new Timer();
         TimerTask tt = new TimerTask() {
             @Override
@@ -119,7 +80,6 @@ public class KafkaAmin {
                         System.out.println("Node ID: " + node.id());
                         System.out.println("Host: " + node.host());
                         System.out.println("Port: " + node.port());
-                        System.out.println("Rack: " + node.rack());
                         System.out.println("Is empty: " + node.isEmpty());
                         System.out.println();
                     }
@@ -133,7 +93,8 @@ public class KafkaAmin {
         timer.scheduleAtFixedRate(tt, 0, 10000);
     }
 
-    public static void printTopics(AdminClient adminClient) throws ExecutionException, InterruptedException {
+    // Print topic names
+    public void printTopics() throws ExecutionException, InterruptedException {
         ListTopicsResult listTopicsResult = adminClient.listTopics();
         Set<String> names = listTopicsResult.names().get();
         for (String name : names) {
@@ -141,24 +102,25 @@ public class KafkaAmin {
         }
     }
 
-    public static void printConsumerGroupOffsets(AdminClient adminClient, String groupID) throws ExecutionException, InterruptedException {
+    // Print the offset for topics of a specific consumer group
+    public void printConsumerGroupOffsets(String groupID) throws ExecutionException, InterruptedException {
         ListConsumerGroupOffsetsResult listConsumerGroupOffsetsResult = adminClient.listConsumerGroupOffsets(groupID);
         Map<String, Map<TopicPartition, OffsetAndMetadata>> idk = listConsumerGroupOffsetsResult.all().get();
 
         idk.forEach((key, value) -> {
             System.out.print(key + ": ");
-            value.forEach((k, v) -> {
-                System.out.println(k + ": " + v + ", ");
-            });
+            value.forEach((k, v) -> System.out.println(k + ": " + v + ", "));
         });
+        System.out.println();
     }
 
-    public static void runSSHCommand(String command) throws JSchException, IOException {
+    public void runSSHCommand(String command) throws JSchException, IOException {
         SSHConnection sshConnection = new SSHConnection();
         sshConnection.execute(command);
     }
 
-    public static void printOffsets(AdminClient adminClient, String topic, int offset) throws ExecutionException, InterruptedException {
+    // Print offsets for a specific partition
+    public void printOffsets(String topic, int offset) throws ExecutionException, InterruptedException {
         TopicPartition topicPartition = new TopicPartition(topic, offset);
         ListOffsetsOptions options = new ListOffsetsOptions();
 
@@ -172,7 +134,8 @@ public class KafkaAmin {
         });
     }
 
-    public static void printTransactions(AdminClient adminClient) throws ExecutionException, InterruptedException {
+    // Print active transactions
+    public void printTransactions() throws ExecutionException, InterruptedException {
         Collection<TransactionListing> result = adminClient.listTransactions().all().get();
 
         for(TransactionListing t : result) {
@@ -180,7 +143,19 @@ public class KafkaAmin {
         }
     }
 
-    public void printProducerDetails(AdminClient adminClient, String topic, int partition) {
+    // Print details of producers for all topics
+    public void printProducerDetails() throws ExecutionException, InterruptedException {
+        Collection<TopicListing> topicListings = getTopicListing(false);
+        Collection<TopicPartition> topicPartitions = new ArrayList<>();
 
+        for(TopicListing tl : topicListings) {
+            topicPartitions.add(new TopicPartition(tl.name(), 0));
+        }
+
+        DescribeProducersResult result = adminClient.describeProducers(topicPartitions);
+
+        result.all().get().forEach((key, value) -> {
+            System.out.println(key + ": " + value.activeProducers());
+        });
     }
 }
