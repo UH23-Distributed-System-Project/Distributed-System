@@ -36,7 +36,13 @@ public final class RedisUtils {
     }
 
     public List<Object> getValueList(Set<String> keys) {
-        return redisTemplate.opsForValue().multiGet(keys);
+        //return redisTemplate.opsForValue().multiGet(keys);
+        List<Object> dataList = new ArrayList<>();
+        keys.stream().forEach(x-> {
+            List<Object> keyDatas = lGet(x);
+            dataList.addAll(keyDatas);
+        });
+        return dataList;
     }
     
     public Boolean delete(String key) {
