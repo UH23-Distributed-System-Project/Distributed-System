@@ -1,0 +1,3 @@
+[2023-12-13 22:10:48,919] INFO [SnapshotGenerator id=3] Creating new KRaft snapshot file snapshot 00000000000000059271-0000000023 because we have waited at least 60 minute(s). (org.apache.kafka.image.publisher.SnapshotGenerator)
+[2023-12-13 22:10:48,936] INFO [SnapshotEmitter id=3] Successfully wrote snapshot 00000000000000059271-0000000023 (org.apache.kafka.image.publisher.SnapshotEmitter)
+[2023-12-13 22:29:08,840] WARN [RaftManager id=3] Detected non-monotonic update of fetch offset from nodeId 102: 61681 -> 61378 (org.apache.kafka.raft.LeaderState)

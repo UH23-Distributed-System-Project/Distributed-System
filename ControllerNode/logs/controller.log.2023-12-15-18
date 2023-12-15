@@ -1,0 +1,2 @@
+[2023-12-15 19:15:49,853] INFO [QuorumController id=2] Replaying ProducerIdsRecord ProducerIdsRecord(brokerId=102, brokerEpoch=82282, nextProducerId=13000) (org.apache.kafka.controller.ProducerIdControlManager)
+[2023-12-15 19:15:49,936] INFO [QuorumController id=2] Replaying ProducerIdsRecord ProducerIdsRecord(brokerId=101, brokerEpoch=82179, nextProducerId=14000) (org.apache.kafka.controller.ProducerIdControlManager)

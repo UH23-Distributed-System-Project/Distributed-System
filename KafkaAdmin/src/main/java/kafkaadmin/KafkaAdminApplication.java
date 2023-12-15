@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutionException;
 public class KafkaAdminApplication {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        // Controllers: 43.157.66.25:9093,43.157.66.25:9095,43.157.66.25:9097
         Properties props = new Properties();
         String bootstrapServers = "43.131.12.169:9092,43.131.14.163:9092,43.131.14.163:9094";
         props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
@@ -30,20 +31,19 @@ public class KafkaAdminApplication {
                         case "list consumer-groups":
                             kafkaAdmin.printConsumerGroups();
                             break;
+                        case "list brokers":
+                            break;
                         case "start broker-monitor":
                             kafkaAdmin.runBrokerMonitor();
                             break;
                         case "describe topics":
-                            kafkaAdmin.printTopicDescriptions();
+                            kafkaAdmin.printTopicDescription();
                             break;
                         case "list transactions":
                             kafkaAdmin.printTransactions();
                             break;
                         case "list producer-details":
                             kafkaAdmin.printProducerDetails();
-                            break;
-                        case "help":
-                            System.out.println("List of commands:\n- list-topics\n- describe-topics\n- list offsets <topic> <offset>\n- list consumer-groups\n- list consumer-group-offsets <groupID>\n- list producer-details\n- start broker-monitor");
                             break;
                         case "quit":
                             System.exit(0);

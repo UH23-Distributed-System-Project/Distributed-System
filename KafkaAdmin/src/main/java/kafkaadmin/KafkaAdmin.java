@@ -30,7 +30,7 @@ public class KafkaAdmin {
     }
 
     // Print topic details
-    public void printTopicDescriptions() throws ExecutionException, InterruptedException {
+    public void printTopicDescription() throws ExecutionException, InterruptedException {
         Collection<TopicListing> listings;
 
         listings = getTopicListing(false);
@@ -80,6 +80,7 @@ public class KafkaAdmin {
                         System.out.println("Node ID: " + node.id());
                         System.out.println("Host: " + node.host());
                         System.out.println("Port: " + node.port());
+                        System.out.println("Is empty: " + node.isEmpty());
                         System.out.println();
                     }
                     System.out.println("--------------------------------\n");
