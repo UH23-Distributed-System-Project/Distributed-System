@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="5">
+    <title>Home</title>
+
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/article.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="nav">
+        <img src="img/8.jpg" alt="">
+        <span class="title">My Article System</span>
+        <!-- Add a blank area, which does not display any content and is just a placeholder. -->
+        <div class="spacer"></div>
+        <a href="home.html">HOME</a>
+        <a href="article_stu.html">ARTICLE</a>
+    </div>
+
+    <div class="container">
+        <!-- Left side: User information -->
+        <div class="container-left">
+            <!-- Card display -->
+            <div class="card">
+                <!-- profile picture -->
+                <img src="img/3.jpg" alt="">
+                <!-- userName -->
+                <h3>zmy</h3>
+                <!--<a href="#">Git Address</a>
+                <div class="counter">
+                    <span>Category</span>
+                    <span>Articles</span>
+                </div>
+                <div class="counter">
+                    <span>6</span>
+                    <span>100</span>
+                </div>-->
+            </div>
+        </div>
+
+        <!-- Right: content area -->
+        <div class="container-right" id="container-right">
+            <!-- Each .article is used to represent an article -->
+            <!-- For test template -->
+            
+        </div>
+    </div>
+
+    <!-- Front-end and back-end interaction -->
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/judge.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        // Get article list information
+        getArticles();
+        //setTimeout(function(){ window.location.reload(); }, 5000);
+    </script>
+
+</body>
+</html>

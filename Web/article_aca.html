@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="5">
+    <title>Article Lists</title>
+
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/article.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="nav">
+        <img src="img/8.jpg" alt="">
+        <span class="title">My Article System</span>
+        <!-- Add a blank area, which does not display any content and is just a placeholder. -->
+        <div class="spacer"></div>
+        <a href="home.html">HOME</a>
+        <a href="article_stu.html">ARTICLE</a>
+        <!-- <a href="logout">LOGOUT</a> -->
+    </div>
+
+    <div class="container">
+        <!-- Right: content area -->
+        <div class="container-right" id="container-right">
+            <!--category navigation bar-->
+            <div calss="container-nav" id="container-nav">
+                <a href="article_stu.html" class="container-a">Students</a>
+                <a href="article_uh.html" class="container-a">UniversityHelsinki</a>
+                <a href="article_news.html" class="container-a">News</a>
+                <a href="article_aca.html" class="container-a-color">AcademicArticles</a>
+                <a href="article_sports.html" class="container-a">Sports</a>
+                <a href="article_others.html" class="container-a">Others</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Front-end and back-end interaction -->
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <!-- <script src="/js/judge.js"></script> -->
+    <script src="js/common.js"></script>
+    <script>
+        // Get article list information
+        $.ajax({
+            // TODO::add java code
+            type: 'get',
+            url: 'http://127.0.0.1:9090/article',
+            data: {
+                type: "AcademicArticles"
+            },
+            dataType: "json",
+            success: function(body) {
+                let container = document.querySelector('.container-right');
+                /** If the acquisition is successful, the body is an array of js objects, 
+                and each element is an article information. **/
+                for (let article of body) {
+                    // Construct article div
+                    let articleDiv = document.createElement('div');
+                    articleDiv.className = 'article';
+
+                    // Construct article title
+                    let titleDiv = document.createElement('div');
+                    titleDiv.className = 'title';
+                    titleDiv.innerHTML = article.title;
+                    // Construct article date
+                    let dateDiv = document.createElement('div');
+                    dateDiv.className = 'date';
+                    dateDiv.innerHTML = article.datestr;
+                    // Construct article description
+                    let summaryDiv = document.createElement('div');
+                    summaryDiv.className = 'desc';
+                    summaryDiv.innerHTML = article.desc;
+                    // Construct the button
+                    let a = document.createElement('a');
+                    //a.href = 'article_detail.html?articleId=' + article.id;
+                    a.href = article.desc
+                    a.target= "_blank"
+                    a.innerHTML = 'View Full Test &gt;&gt;';
+
+                    // Assembling the final result
+                    articleDiv.appendChild(titleDiv);
+                    articleDiv.appendChild(dateDiv);
+                    articleDiv.appendChild(summaryDiv);
+                    articleDiv.appendChild(a);
+                    container.appendChild(articleDiv);
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

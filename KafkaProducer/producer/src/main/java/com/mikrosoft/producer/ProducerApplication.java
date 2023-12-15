@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.util.Random;
 
 @SpringBootApplication
 public class ProducerApplication {
@@ -32,13 +33,28 @@ public class ProducerApplication {
 		scanner.close();
 		List<String> servers = new ArrayList<>();
 		// 2@128.214.9.25:9092,3@128.214.9.26:9092,1@128.214.11.91:9092
-		servers.add("2@128.214.9.25:9092");
-		servers.add("3@128.214.9.26:9092");
-		servers.add("1@128.214.11.91:9092");
+		servers.add("101@43.131.14.163:9092");
+		servers.add("102@43.131.14.163:9094");
+		servers.add("103@43.131.12.169:9092");
 		SpringApplication.run(ProducerApplication.class, args);
 		RoundRobin rr = new RoundRobin(servers);
 		Producer producer =
 				new Producer("producer\\src\\main\\resources\\articles.csv", rr.getNextServer());
 		producer.send();
+	}
+
+	private static String getRandomElement(List<String> list) {
+		// Check if the list is not empty
+		if (list != null && !list.isEmpty()) {
+			// Use Random to get a random index
+			Random random = new Random();
+			int randomIndex = random.nextInt(list.size());
+
+			// Return the element at the random index
+			return list.get(randomIndex);
+		} else {
+			// Return null or handle the case when the list is empty
+			return null;
+		}
 	}
 }

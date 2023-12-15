@@ -2,6 +2,7 @@ package com.mikrosoft.producer;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
@@ -24,20 +25,19 @@ public class RecordGenerator {
 
     public void buildRecordsList() {
         this.map = new HashMap<>();
-        try (CSVReader csvReader = new CSVReader(new FileReader(PATH))) {
-            String[] line;
-            while ((line = csvReader.readNext()) != null) {
-                String type = line[2];
-                String name = line[0];
-                String author = line[1];
-                String time = line[3];
-                String link = line[4];
+        try (BufferedReader br = new BufferedReader(new FileReader(PATH))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String type = line.split(",")[2];
+                String name = line.split(",")[0];
+                String author = line.split(",")[1];
+                String time = line.split(",")[3];
+                String link = line.split(",")[4];
 
-                String values = "Article: " + name + ", author:" + author + ", published on:" + time
-                        + "\n\tLink to article: " + link;
+                String values = name + "," + author + "," + time + "," + link;
                 addKeyValuePair(this.map, type, values);
             }
-        } catch (IOException | CsvValidationException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

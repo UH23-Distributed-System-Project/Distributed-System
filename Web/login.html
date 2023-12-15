@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+     <!-- Navigation bar: Note that there is no logout on the login page -->
+     <div class="nav">
+        <img src="img/1.jpg" alt="">
+        <span class="title">My Article System</span>
+        <div class="spacer"></div>
+        <a href="home.html">HOME</a>
+        <a href="article_stu.html">ARTICLE</a>
+    </div>
+
+    <div class="login-container">
+        <!-- Add form -->
+        <!-- TODO::add java code -->
+        <form id="login-form"><!--, action="http://127.0.0.1:9090/login" method="post"-->
+            <div class="dialog">
+                <h3>LOGIN</h3>
+                <div class="row">
+                    <span>username</span>
+                    <input type="text" id="username" name="userName">
+                </div>
+                <div class="row">
+                    <span>password</span>
+                    <input type="password" id="password" name="password">
+                </div>
+                <div class="row">
+                    <!-- <button id="login-button">Login</button> -->
+                    <!-- Modify login button -->
+                    <input type="submit" value="Login" id="login-button" >
+                </div>
+            </div>
+        </form>
+       
+    </div>
+
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="js/common.js"></script>
+    <!-- <script src="/js/judge.js"></script> -->
+    <script>
+        checkLoginUser();
+        $("#login-form").submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+            type: "post",
+            url: "http://127.0.0.1:9090/login",
+            data: {
+                userName: $("#username").val(),
+                password: $("#password").val()
+            },
+            dataType: "json",
+            xhrFields: {
+                withCredentials: true
+            }
+            // success: function(response) {
+            //     if (response.code == 0) {
+            //         window.top.location.href= "http://127.0.0.1:8080/my-article-web/article.html"
+            //     } else {
+            //         alert(response.message)
+            //     }
+            // },
+            // error: function() {
+            //     alert("Request error!")
+            // }
+            }).done(function (response) {
+                debugger;
+                //$("#log").html(response.message);
+                window.location.href = "./home.html";
+            }).fail(function (jqXHR, textStatus) {
+                console.log("Request failed: " + textStatus);
+                //alert("Not logged in, please log in first");
+                window.location.href = "./home.html";
+            });
+        });
+
+        // $("#login-form").submit(function(e) {
+        //     e.preventDefault();
+        //     $.ajaxSetup({
+        //     complete : function(XMLHttpRequest, textStatus) {
+        //         var redirect = XMLHttpRequest.getResponseHeader("REDIRECT");
+        //         if (redirect == "REDIRECT") {
+        //             alert("Not logged in, please log in first");
+
+        //         window.top.location.href= "http://127.0.0.1:8080/my-article-web/" + XMLHttpRequest.getResponseHeader("PATH");
+        //         }
+        //     }});
+        // });
+
+    </script>
+</body>
+</html>

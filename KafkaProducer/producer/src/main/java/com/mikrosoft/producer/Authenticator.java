@@ -23,8 +23,8 @@ public class Authenticator {
 
     public Authenticator(String userinput) {
         // user input consists of 2 types:
-        // For register, input takes the format register,username,password
-        // For login, input takes the format login,username,password
+        // register,username,password
+        // login,username,password
         this.USER = new UserCredentials(userinput.split(",")[0], userinput.split(",")[1],
                 userinput.split(",")[2]);
         System.out.print(userinput.split(",")[0].getClass());
@@ -98,7 +98,6 @@ public class Authenticator {
                 VERSION += 1;
                 writer1.write(String.valueOf(VERSION) + "," + sha256Hash);
                 writer1.close();
-                synchronize();
             } catch (Exception e) {
                 e.printStackTrace();
             }
