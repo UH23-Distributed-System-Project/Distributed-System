@@ -1,0 +1,216 @@
+/* This file stores common styles that need to be used by multiple pages. */
+
+* {
+    margin: 0; 
+    padding: 0;
+    box-sizing: border-box;
+ }
+
+html {
+    /* Set the height of html to be as high as its parent element browser */
+    height: 100%;
+}
+
+ body {
+    /* Set the height of the body to be as high as its parent element html */
+    height: 100%;
+
+    background-image: url(../img/dali.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.nav {
+    /* Navigation bar height: 50px */
+    height: 50px;
+    background-color: rgba(50,50,50,0.4);
+    color: white;
+    /* Flexible layout */
+    display: flex;
+    /* Layout horizontally to the left */
+    justify-content: flex-start;
+    /* Align vertically to the center */
+    align-items: center;
+}
+
+/* Set avatar size */
+.nav img {
+    width: 40px;
+    height: 40px;
+    margin-left: 30px;
+    margin-right: 10px;
+    /* Set circle: radius set to half size */
+    border-radius: 20px;
+}
+
+.nav .spacer {
+    /* Sets the current size based on the parent element */
+    width: 70%;
+}
+
+/* Set up hyperlinks */
+.nav a {
+color: white;
+/* Text decoration: overline, underline, strikethrough, set to none */
+text-decoration: none;
+/* Set padding: 0 for top and bottom, 10 for left and right sides */
+padding: 0 10px;
+}
+
+
+/* Container style settings */
+.container {
+    width: 2000px;
+    margin: 0 auto;
+    /* 100% represents the height of the parent element */
+    height: calc(100% - 500px);
+    display: flex;
+    /* Set up a gap between the two modules */
+    /**justify-content: space-between;**/
+    justify-content: center;
+}
+
+.container .container-left {
+    height: 100%;
+    width: 200px;
+    /* background-color: red; */
+}
+
+/* 
+#container-nav {
+    height: 55px;
+    width: 55px;
+	line-height: 50px;
+	text-align: center;
+	background-color: #87CEEB;
+	margin: 0 auto;
+} */
+
+
+/* .container-a {
+    text-decoration: none;
+	width: 100px;
+	height: 50px;
+	text-align: center;
+	background-color: green;
+	line-height: 50px;
+    color:white;
+	display: inline-block;
+} */
+
+
+
+
+/**
+a {
+    text-decoration: none;
+	width: 100px;
+	height: 50px;
+	text-align: center;
+	background-color: green;
+	line-height: 50px;
+    color:white;
+	display: inline-block;
+}
+.container .container-nav a:hover{
+    background-color: indianred;
+    color:#F0F8FF
+}**/
+
+.container .container-right {
+    height: 100%;
+    width: 1296px;
+    /* background-color: blue; */
+    background-color: rgba(255,255,255,0.8);
+    padding: 20px;
+    /* Add rounded corners */
+    border-radius: 20px;
+
+    /* If the content exceeds the range, scroll bars are automatically added. */
+    overflow: auto;
+}
+
+.container .container-right .container-nav {
+    height: 55px;
+    width: 100%;
+	line-height: 50px;
+	text-align: center;
+	background-color: #87CEEB;
+	margin: 0 auto;
+}
+
+.container .container-right .container-a {
+    text-decoration: none;
+	width: 100px;
+	height: 50px;
+	text-align: center;
+	background-color: green;
+	line-height: 50px;
+    color:white;
+	display: inline-block;
+    font-size: 10px;
+    font-weight: 100;
+}
+
+.container .container-nav .container-a:hover{
+    background-color: indianred;
+    color:#F0F8FF
+}
+
+.container-a-color {
+    text-decoration: none;
+	width: 100px;
+	height: 50px;
+	text-align: center;
+	/**background-color: green;**/
+	line-height: 50px;
+    color:white;
+	display: inline-block;
+    background-color: red;
+    font-size: 10px;
+    font-weight: 100;
+}
+
+/* Set the left card style */
+.card {
+    background-color:rgba(255,255,255,0.8);
+    padding: 30px;
+    /* Set rounded rectangle */
+    border-radius: 20px;
+}
+
+/* Set the avatar in left card */
+.card img {
+    width: 140px;
+    height: 140px;
+    border-radius: 70px;
+}
+
+/* Adjust username style */
+.card h3 {
+    text-align: center;
+    padding: 10px;
+}
+
+/* Adjust links */
+.card a {
+    /* You will find that setting the text to be centered is useless because a is an inline element 
+    and the default size is the same as the content, so text centering has no effect.
+    Need to be converted into block-level elements first */
+    display: block;
+
+    text-align: center;
+    color: #999;
+    text-decoration: none;
+
+    padding: 10px 0;
+}
+
+/* Adjust articles and categories */
+.card .counter {
+    display: flex;
+    /* Set horizontal interval */
+    justify-content: space-around;
+    padding: 5px;
+}
