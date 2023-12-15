@@ -44,8 +44,7 @@ public class RoundRobin {
             CURRENT_INDEX.set(1);
             index = 0;
         }
-        System.out.print("Next server is " + SERVER_LIST.get(index).split("@")[1] + "\n");
-        return SERVER_LIST.get(index).split("@")[1];
+        return SERVER_LIST.get(index);
     }
 
     private static int readIndexFromFile(String filePath) throws FileNotFoundException {
